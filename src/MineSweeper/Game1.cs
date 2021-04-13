@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MineSweeper.Engine;
 
 namespace MineSweeper
 {
@@ -8,6 +11,10 @@ namespace MineSweeper
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        List<GameObject> GameObjTitles = new List<GameObject>();
+
+        Vector2[,] titles = new Vector2[10,10];
+
 
         public Game1()
         {
@@ -18,16 +25,25 @@ namespace MineSweeper
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
+
+            _graphics.PreferredBackBufferWidth = 300;  
+            _graphics.PreferredBackBufferHeight = 300;   
+            _graphics.ApplyChanges();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            for(int i = 0;i<10;i++)
+            {
+                for(int j=0;j<10;j++)
+                {
+                    GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockzero"),new Vector2(j*30,i*30),0,0));
+                    titles[i,j] = new Vector2(j*30,i*30);
+                }
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -36,6 +52,7 @@ namespace MineSweeper
                 Exit();
 
             // TODO: Add your update logic here
+            Console.WriteLine("a");
 
             base.Update(gameTime);
         }
@@ -43,8 +60,14 @@ namespace MineSweeper
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            
 
-            // TODO: Add your drawing code here
+            foreach(var obj in GameObjTitles)
+            {
+                obj.Draw(_spriteBatch);
+            }
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
