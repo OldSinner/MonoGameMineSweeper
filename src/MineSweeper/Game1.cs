@@ -15,6 +15,8 @@ namespace MineSweeper
 
         Vector2[,] titles = new Vector2[10,10];
 
+        int[,] minefield = new int[10,10];
+
 
         public Game1()
         {
@@ -35,12 +37,21 @@ namespace MineSweeper
 
         protected override void LoadContent()
         {
+            minefield = Generator.GenerateMines(minefield,30);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             for(int i = 0;i<10;i++)
             {
                 for(int j=0;j<10;j++)
                 {
-                    GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockzero"),new Vector2(j*30,i*30),0,0));
+                    if(minefield[i,j]==0)
+                    {
+                        GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockzero"),new Vector2(j*30,i*30),0,0));
+                    }
+                    else
+                    {
+                        GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockbomb"),new Vector2(j*30,i*30),0,0));
+                    }
+                    
                     titles[i,j] = new Vector2(j*30,i*30);
                 }
             }
