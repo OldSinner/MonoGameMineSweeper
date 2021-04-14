@@ -17,6 +17,8 @@ namespace MineSweeper
 
         int[,] minefield = new int[10,10];
 
+        int minesSize= 30;
+
 
         public Game1()
         {
@@ -30,14 +32,14 @@ namespace MineSweeper
 
             base.Initialize();
 
-            _graphics.PreferredBackBufferWidth = 300;  
-            _graphics.PreferredBackBufferHeight = 300;   
+            _graphics.PreferredBackBufferWidth = minesSize*10;  
+            _graphics.PreferredBackBufferHeight = minesSize*10;   
             _graphics.ApplyChanges();
         }
 
         protected override void LoadContent()
         {
-            minefield = Generator.GenerateMines(minefield,30);
+            minefield = Generator.GenerateMines(minefield,56);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             for(int i = 0;i<10;i++)
             {
@@ -45,14 +47,14 @@ namespace MineSweeper
                 {
                     if(minefield[i,j]==0)
                     {
-                        GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockzero"),new Vector2(j*30,i*30),0,0));
+                        GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockzero"),new Vector2(j*minesSize,i*minesSize),0,0));
                     }
                     else
                     {
-                        GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockbomb"),new Vector2(j*30,i*30),0,0));
+                        GameObjTitles.Add(new GameObject(Content.Load<Texture2D>("blockbomb"),new Vector2(j*minesSize,i*minesSize),0,0));
                     }
                     
-                    titles[i,j] = new Vector2(j*30,i*30);
+                    titles[i,j] = new Vector2(j*minesSize,i*minesSize);
                 }
             }
         }
