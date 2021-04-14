@@ -11,13 +11,15 @@ namespace MineSweeper
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        static int bombHeight = 15;
+        static int bombWidth = 10;
         List<GameObject> GameObjTitles = new List<GameObject>();
 
-        Vector2[,] titles = new Vector2[10,10];
+        Vector2[,] titles = new Vector2[bombHeight,bombWidth];
 
-        int[,] minefield = new int[10,10];
+        int[,] minefield = new int[bombHeight,bombWidth];
 
-        int minesSize= 30;
+         int minesSize= 30;
 
 
         public Game1()
@@ -32,18 +34,18 @@ namespace MineSweeper
 
             base.Initialize();
 
-            _graphics.PreferredBackBufferWidth = minesSize*10;  
-            _graphics.PreferredBackBufferHeight = minesSize*10;   
+            _graphics.PreferredBackBufferWidth = minesSize*bombWidth;  
+            _graphics.PreferredBackBufferHeight = minesSize*bombHeight;   
             _graphics.ApplyChanges();
         }
 
         protected override void LoadContent()
         {
-            minefield = Generator.GenerateMines(minefield,56);
+            minefield = Generator.GenerateMines(minefield,56,bombHeight,bombWidth);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            for(int i = 0;i<10;i++)
+            for(int i = 0;i<bombHeight;i++)
             {
-                for(int j=0;j<10;j++)
+                for(int j=0;j<bombWidth;j++)
                 {
                     if(minefield[i,j]==0)
                     {

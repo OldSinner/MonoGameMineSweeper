@@ -4,13 +4,13 @@ namespace MineSweeper.Engine
 {
     public static class Generator
     {
-        public static int[,] GenerateMines(int[,] mines, int numberofmines)
+        public static int[,] GenerateMines(int[,] mines, int numberofmines, int bombHeight, int bombWidth)
         {
             var rand = new Random();
             while(numberofmines != 0)
             {
-                var i = rand.Next(10);
-                var j = rand.Next(10);
+                var i = rand.Next(bombHeight);
+                var j = rand.Next(bombWidth);
                 if(mines[i,j]!=1)
                 {
                     mines[i,j]=1;
