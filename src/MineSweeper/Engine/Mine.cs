@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -11,16 +12,19 @@ namespace MineSweeper.Engine
         public int type { get; set; }
         public Rectangle area { get; }
         public bool isRevelated { get; set; }
-
-
-        public Mine(Texture2D _texture, Vector2 _position, float _layerDepth, bool _isBomb, int _type, int size) : base(_texture, _position, _layerDepth)
+        public int column { get; set; }
+        public int row { get; set; }
+        public Mine(Texture2D _texture, Vector2 _position, float _layerDepth, bool _isBomb, int _type, int size, int column, int row) : base(_texture, _position, _layerDepth)
         {
             isBomb = _isBomb;
             type = _type;
             area = new Rectangle((int)Position.X, (int)Position.Y, size, size);
+            this.column = column;
+            this.row = row;
         }
-        public void revealTitle(List<Texture2D> textures)
+        public void revealTitle(List<Texture2D> textures, Mine[,] gameObjects)
         {
+            if (isRevelated) return;
             var texturename = "";
             switch (type)
             {
@@ -56,7 +60,31 @@ namespace MineSweeper.Engine
                     break;
             }
             texture = textures.Where(x => x.Name == texturename).First();
+            if (type == 34)
+            {
+                if (column + 1 <= gameObjects.GetLength(0))
+                {
+                    gameObjects[column + 1, row].revealTitle(textures, gameObjects);
+                    gameObjects[column + 1, row - 1].revealTitle(textures, gameObjects);
+                    gameObjects[column + 1, row + 1].revealTitle(textures, gameObjects);
+                }
+                if (column - 1 >= 0)
+                {
+                    gameObjects[column - 1, row].revealTitle(textures, gameObjects);
+                    gameObjects[column - 1, row - 1].revealTitle(textures, gameObjects);
+                    gameObjects[column - 1, row + 1].revealTitle(textures, gameObjects);
+                }
+                if (row + 1 >= gameObjects.GetLength(1))
+                {
+                    gameObjects[column, row + 1].revealTitle(textures, gameObjects);
+                }
+                if (row - 1 >= 0)
+                {
+                    gameObjects[column, row - 1].revealTitle(textures, gameObjects);
+                }
+            }
             isRevelated = true;
         }
+
     }
 }

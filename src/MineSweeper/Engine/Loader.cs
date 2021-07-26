@@ -25,21 +25,20 @@ namespace MineSweeper.Engine
             textures.Add((contentManager.Load<Texture2D>("blockbomb")));
             return textures;
         }
-        public List<Mine> LoadBombs(int[,] mines, int bombHeight, int bombWidth, List<Texture2D> textures, int minesSize)
+        public Mine[,] LoadBombs(int[,] mines, int bombHeight, int bombWidth, List<Texture2D> textures, int minesSize)
         {
-            var GameObjTitles = new List<Mine>();
+            var GameObjTitles = new Mine[bombHeight, bombWidth];
             for (int i = 0; i < bombHeight; i++)
             {
                 for (int j = 0; j < bombWidth; j++)
                 {
                     if (mines[i, j] == 10)
                     {
-                        GameObjTitles.Add(new Mine(textures.Where(x => x.Name == "unblocked").First(), new Vector2(j * minesSize, i * minesSize), 0, true, mines[i, j], minesSize));
+                        GameObjTitles[i, j] = new Mine(textures.Where(x => x.Name == "unblocked").First(), new Vector2(j * minesSize, i * minesSize), 0, true, mines[i, j], minesSize, i, j);
                     }
                     else
                     {
-                        GameObjTitles.Add(new Mine(textures.Where(x => x.Name == "unblocked").First(), new Vector2(j * minesSize, i * minesSize), 0, true, mines[i, j], minesSize));
-
+                        GameObjTitles[i, j] = new Mine(textures.Where(x => x.Name == "unblocked").First(), new Vector2(j * minesSize, i * minesSize), 0, true, mines[i, j], minesSize, i, j);
                     }
                 }
             }
