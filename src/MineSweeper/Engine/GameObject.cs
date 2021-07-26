@@ -8,15 +8,11 @@ namespace MineSweeper.Engine
         public Texture2D texture;
         public Vector2 Position;
         public float LayerDepth;
-
-        int type;
-
-        public GameObject(Texture2D _texture, Vector2 _position,  float _layerDepth,int _type)
+        public GameObject(Texture2D _texture, Vector2 _position, float _layerDepth)
         {
             texture = _texture;
             Position = _position;
             LayerDepth = _layerDepth;
-            type = _type;
         }
 
         public void Update()
@@ -25,7 +21,7 @@ namespace MineSweeper.Engine
         }
         public void Draw(SpriteBatch _spriteBath)
         {
-           _spriteBath.Draw(texture,Position,Color.White);
+            _spriteBath.Draw(texture, Position, Color.White);
         }
     }
 }

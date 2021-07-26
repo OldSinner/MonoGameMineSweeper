@@ -1,4 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MineSweeper.Engine
 {
@@ -18,9 +23,17 @@ namespace MineSweeper.Engine
                     numberofmines--;
                 }
             }
+            for (int i = 0; i < bombHeight; i++)
+            {
+                for (int j = 0; j < bombWidth; j++)
+                {
+                    if (mines[i, j] != 10)
+                        mines[i, j] = CheckType(mines, i, j);
+                }
+            }
             return mines;
         }
-        public static int CheckType(int[,] minefield, int column, int row)
+        static int CheckType(int[,] minefield, int column, int row)
         {
             int type = 0;
             if (CheckIfMines(minefield, column + 1, row)) type++;
@@ -44,8 +57,7 @@ namespace MineSweeper.Engine
             {
                 return false;
             }
-
-
         }
+       
     }
 }
