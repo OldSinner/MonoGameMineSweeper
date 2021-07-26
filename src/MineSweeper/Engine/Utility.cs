@@ -4,8 +4,9 @@ namespace MineSweeper.Engine
 {
     public static class Utility
     {
-        public static int[,] GenerateMines(int[,] mines, int numberofmines, int bombHeight, int bombWidth)
+        public static int[,] GenerateMines(int numberofmines, int bombHeight, int bombWidth)
         {
+            int[,] mines = new int[bombHeight, bombWidth];
             var rand = new Random();
             while (numberofmines != 0)
             {
@@ -39,7 +40,7 @@ namespace MineSweeper.Engine
                 if (minefiled[column, row] == 10) return true;
                 else return false;
             }
-            catch(Exception x)
+            catch (Exception x)
             {
                 return false;
             }
