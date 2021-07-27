@@ -22,7 +22,7 @@ namespace MineSweeper.Engine
             this.column = column;
             this.row = row;
         }
-        public void revealTitle(List<Texture2D> textures, Mine[,] gameObjects)
+        public void revealTitle(List<Texture2D> textures, Mine[,] gameObjects, bool clicked)
         {
             if (isRevelated) return;
             var texturename = "";
@@ -60,31 +60,74 @@ namespace MineSweeper.Engine
                     break;
             }
             texture = textures.Where(x => x.Name == texturename).First();
-            if (type == 34)
+            isRevelated = true;
+            if (type == 0 && clicked)
             {
-                if (column + 1 <= gameObjects.GetLength(0))
+                bool reveletedAll = false;
+                while (!reveletedAll)
                 {
-                    gameObjects[column + 1, row].revealTitle(textures, gameObjects);
-                    gameObjects[column + 1, row - 1].revealTitle(textures, gameObjects);
-                    gameObjects[column + 1, row + 1].revealTitle(textures, gameObjects);
-                }
-                if (column - 1 >= 0)
-                {
-                    gameObjects[column - 1, row].revealTitle(textures, gameObjects);
-                    gameObjects[column - 1, row - 1].revealTitle(textures, gameObjects);
-                    gameObjects[column - 1, row + 1].revealTitle(textures, gameObjects);
-                }
-                if (row + 1 >= gameObjects.GetLength(1))
-                {
-                    gameObjects[column, row + 1].revealTitle(textures, gameObjects);
-                }
-                if (row - 1 >= 0)
-                {
-                    gameObjects[column, row - 1].revealTitle(textures, gameObjects);
+                    Console.WriteLine("ok");
+                    reveletedAll = !RevealNear(gameObjects, textures);
                 }
             }
-            isRevelated = true;
-        }
+            RevealNear(gameObjects, textures);
 
+        }
+        public bool RevealNear(Mine[,] gameObjects, List<Texture2D> textures)
+        {
+            bool reveal = false;
+            for (int i = 0; i < gameObjects.GetLength(0); i++)
+            {
+                for (int j = 0; j < gameObjects.GetLength(1); j++)
+                {
+                    if (gameObjects[i, j].isRevelated || gameObjects[i, j].isBomb)
+                    {
+                        continue;
+                    }
+                    if (i - 1 >= 0)
+                    {
+                        var obj = gameObjects[i - 1, j];
+                        if (obj.isRevelated && !obj.isBomb && obj.type == 0)
+                        {
+                            gameObjects[i, j].revealTitle(textures, gameObjects, false);
+                            reveal = true;
+                        }
+                    }
+                    if (i + 1 < gameObjects.GetLength(0))
+                    {
+                        {
+                            var obj = gameObjects[i + 1, j];
+                            if (obj.isRevelated && !obj.isBomb && obj.type == 0)
+                            {
+                                gameObjects[i, j].revealTitle(textures, gameObjects, false);
+                                reveal = true;
+                            }
+
+                        }
+                    }
+                    if (j - 1 >= 0)
+                    {
+                        var obj = gameObjects[i, j - 1];
+                        if (obj.isRevelated && !obj.isBomb && obj.type == 0)
+                        {
+                            gameObjects[i, j].revealTitle(textures, gameObjects, false);
+                            reveal = true;
+                        }
+                    }
+                    if (j + 1 < gameObjects.GetLength(1))
+                    {
+                        {
+                            var obj = gameObjects[i, j + 1];
+                            if (obj.isRevelated && !obj.isBomb && obj.type == 0)
+                            {
+                                gameObjects[i, j].revealTitle(textures, gameObjects, false);
+                                reveal = true;
+                            }
+                        }
+                    }
+                }
+            }
+            return reveal;
+        }
     }
 }

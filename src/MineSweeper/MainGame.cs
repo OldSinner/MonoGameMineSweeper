@@ -42,7 +42,7 @@ namespace MineSweeper
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             var loader = new Loader();
             textures = loader.LoadTexture(Content);
-            var minefield = Utility.GenerateMines(30, bombHeight, bombWidth);
+            var minefield = Utility.GenerateMines(40, bombHeight, bombWidth);
             GameObjTitles = loader.LoadBombs(minefield, bombHeight, bombWidth, textures, minesSize);
         }
 
@@ -62,7 +62,7 @@ namespace MineSweeper
                     }
                     if (!obj.isRevelated)
                     {
-                        obj.revealTitle(textures, GameObjTitles);
+                        obj.revealTitle(textures, GameObjTitles, true);
                     }
                     break;
                 }

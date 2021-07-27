@@ -38,7 +38,7 @@ namespace MineSweeper.Engine
                     }
                     else
                     {
-                        GameObjTitles[i, j] = new Mine(textures.Where(x => x.Name == "unblocked").First(), new Vector2(j * minesSize, i * minesSize), 0, true, mines[i, j], minesSize, i, j);
+                        GameObjTitles[i, j] = new Mine(textures.Where(x => x.Name == "unblocked").First(), new Vector2(j * minesSize, i * minesSize), 0, false, mines[i, j], minesSize, i, j);
                     }
                 }
             }
